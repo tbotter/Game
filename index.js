@@ -34,9 +34,9 @@ function textUpdate() {
     if (player.d != '0')
         document.getElementById("increaseDamage").innerHTML = "Upgrade your damage with 1 Idle PointTM.";
     document.getElementById("Zone").innerHTML = "Zone: " + monster.zone + " (" + monster.current + "/" + monster.maxperzone + ")";
-    document.getElementById("mainDamage").innerHTML = "You deal " + player.dps.toExponential() + " damage per second.";
-    document.getElementById("mainMoney").innerHTML = "You have " + player.c.toExponential() + " Idle PointsTM.";
-    document.getElementById("mainEnemy").innerHTML = "Monster #" + monster.nr + " has " + formatter.format(monster.h).toExponental() + " health.";
+    document.getElementById("mainDamage").innerHTML = "You deal " + player.dps + " damage per second.";
+    document.getElementById("mainMoney").innerHTML = "You have " + player.c + " Idle PointsTM.";
+    document.getElementById("mainEnemy").innerHTML = "Monster #" + monster.nr + " has " + formatter.format(monster.h) + " health.";
     document.getElementById("upgrade1").innerHTML = "Double your damage. Cost: (" + player.upgrade1 + ")";
 }
 
@@ -65,7 +65,7 @@ function monsterLoop() {
 }
 
 function buyDamage() {
-    if (player.d.equalTo(0)) {
+    if (player.d.equals(0)) {
         player.d = player.d.plus(1/32);
         player.dps = player.dps.plus(1);
     }
