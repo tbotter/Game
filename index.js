@@ -1,4 +1,3 @@
-
 var formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -33,29 +32,30 @@ window.onload = function updatecount() {
 
 function textUpdate() {
     if (player.d != '0')
-        document.getElementById("increaseDamage").innerHTML = "Upgrade your damage with 1 Idle PointsTM.";
+        document.getElementById("increaseDamage").innerHTML = "Upgrade your damage with 1 Idle PointTM.";
     document.getElementById("Zone").innerHTML = "Zone: " + monster.zone + " (" + monster.current + "/" + monster.maxperzone + ")";
-    document.getElementById("mainDamage").innerHTML = "You deal " + player.dps + " damage per second.";
-    document.getElementById("mainMoney").innerHTML = "You have " + player.c + " Idle PointsTM.";
-    document.getElementById("mainEnemy").innerHTML = "Monster #" + monster.nr + " has " + formatter.format(monster.h) + " health.";
+    document.getElementById("mainDamage").innerHTML = "You deal " + player.dps.toExponential() + " damage per second.";
+    document.getElementById("mainMoney").innerHTML = "You have " + player.c.toExponential() + " Idle PointsTM.";
+    document.getElementById("mainEnemy").innerHTML = "Monster #" + monster.nr + " has " + formatter.format(monster.h).toExponental() + " health.";
     document.getElementById("upgrade1").innerHTML = "Double your damage. Cost: (" + player.upgrade1 + ")";
 }
 
 function render() {
-    monster.h -= player.d;
+    monster.h -= player.d; //Health minus Damage
     monsterLoop();
 }
 
 function monsterLoop() {
-    if (monster.h <= 0) {
+    if (monster.h.lessThanOrEqualTo(0)) {
         monster.h = monster.maxHealth;
         monster.nr += 1;
         monster.current += 1;
         player.c = player.c.plus(player.gainC);
-        if (monster.nr > monster.maxperzone) {
+        if (monster.nr > monster.maxperzone)    //No Decimal numbers
+            {
             monster.maxHealth = 15;
             for (i = 1; i <= monster.zone; i++)
-                monster.maxHealth *= healthScaling;
+                monster.maxHealth = monster.maxHealth.times(healthScaling);
             monster.h = monster.maxHealth;
             monster.zone += 1;
             monster.nr = 1;
@@ -65,11 +65,11 @@ function monsterLoop() {
 }
 
 function buyDamage() {
-    if (player.d == '0') {
+    if (player.d.equalTo(0)) {
         player.d = player.d.plus(1/32);
         player.dps = player.dps.plus(1);
     }
-    if (player.c > '0') {
+    if (player.c.greaterThan(0)) {
         player.c = player.c.minus(1);
         player.d = player.d.plus(1/32);
         player.dps = player.dps.plus(1);
@@ -78,9 +78,9 @@ function buyDamage() {
 
 function upgradeDamage() {
     if (player.c >= player.upgrade1) {
-        player.c -= player.upgrade1;
-        player.d *= 2;
-        player.dps *= 2;
-        player.upgrade1 ^= 2;
+        player.c = player.c.minus(player.upgrade1);
+        player.d = player.d.times(2);
+        player.dps = player.dps.times(2);
+        player.upgrade1 = player.upgrade1.multi(2);
     }
 }
