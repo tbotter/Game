@@ -41,7 +41,7 @@ function textUpdate() {
 }
 
 function render() {
-    monster.h -= player.d; //Health minus Damage
+    monster.h = monster.h.minus(player.d); //Health minus Damage
     monsterLoop();
 }
 
